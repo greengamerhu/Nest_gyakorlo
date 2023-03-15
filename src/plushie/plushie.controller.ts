@@ -11,6 +11,10 @@ export class PlushieController {
   create(@Body() createPlushieDto: CreatePlushieDto) {
     return this.plushieService.create(createPlushieDto);
   }
+  @Post(':plushieid/giveto/:preschoolerid')
+  addPlushieToAChild(@Param('plushieid') plushieid : number, @Param('preschoolerid') preschoolerid : number) {
+      return this.plushieService.addPlushieToAChild(plushieid, preschoolerid)
+  } 
 
   @Get()
   findAll() {

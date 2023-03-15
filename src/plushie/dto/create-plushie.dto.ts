@@ -1,10 +1,10 @@
-import { Min, IsNotEmpty, IsNumber } from "class-validator";
+import { Min, IsNotEmpty, IsNumber, IsString } from "class-validator";
 import { Preschooler } from "src/preschooler/entities/preschooler.entity";
 import { ManyToOne } from "typeorm";
 
 export class CreatePlushieDto {
     id : number
-
+    @IsString()
     @IsNotEmpty({message : "Nem lehet üres"})
     type: string
     @IsNotEmpty()

@@ -1,4 +1,3 @@
-import { Min } from "class-validator"
 import { Preschooler } from "src/preschooler/entities/preschooler.entity"
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
 
@@ -10,6 +9,6 @@ export class Plushie {
     type: string
     @Column()
     size: number 
-    @ManyToOne(() => Preschooler, (preschooler) => preschooler.plushie)
+    @ManyToOne(() => Preschooler, (preschooler) => preschooler.plushie, {'onDelete' : 'SET NULL'})
     preschooler : Preschooler
 }

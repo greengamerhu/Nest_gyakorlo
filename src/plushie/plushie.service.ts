@@ -1,4 +1,5 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable } from '@nestjs/common';
+import { Preschooler } from 'src/preschooler/entities/preschooler.entity';
 import { DataSource } from 'typeorm';
 import { CreatePlushieDto } from './dto/create-plushie.dto';
 import { UpdatePlushieDto } from './dto/update-plushie.dto';
@@ -14,7 +15,27 @@ export class PlushieService {
     newplushie.size = createPlushieDto.size
     await plushieRepo.save(newplushie)
   }
+  async addPlushieToAChild(plushieid : number, preschoolerid : number) {
+    const plushieRepo = this.dataSource.getRepository(Plushie)
+    const preschoolerRepo = this.dataSource.getRepository(Preschooler)
+    const plushie = await plushieRepo.findOne({where: {id : plushieid}, relations : {preschooler : true}})
+    const kid = await preschoolerRepo.findOneBy({id :preschoolerid})
+    console.log(plushie)
 
+    if (plushie  == null) {
+      throw new BadRequestException("A plüss nem létezik")
+    }
+    if (kid == null) {
+      throw new BadRequestException("A gyerek nem létezik")
+    }
+    if(plushie.preschooler != null) {
+      throw new ConflictException("A plüssek már van gazdija")
+    }
+    plushie.preschooler = kid    
+    return plushieRepo.save(plushie)
+
+
+  }
   async findAll() {
     return await this.dataSource.getRepository(Plushie).find()
   }
