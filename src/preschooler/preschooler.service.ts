@@ -32,10 +32,13 @@ export class PreschoolerService {
       throw new BadRequestException("Ilyen id-val nem található gyerek")
     }
     const PreschoolerToUpdate = await PreschoolerRepo.findOneBy({id})
+    if(updatePreschoolerDto.age == null && updatePreschoolerDto.name == null) {
+      throw new BadRequestException("A kéréshez nem társult semilyen adat")
+    }
     PreschoolerToUpdate.name = updatePreschoolerDto.name
     PreschoolerToUpdate.age = updatePreschoolerDto.age
-
-    PreschoolerRepo.save(PreschoolerToUpdate)
+    
+    return PreschoolerRepo.save(PreschoolerToUpdate)
   }
 
   async remove(id: number) {

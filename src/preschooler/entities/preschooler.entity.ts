@@ -1,5 +1,6 @@
 import { Min, Max } from "class-validator"
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm"
+import { Plushie } from "src/plushie/entities/plushie.entity"
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm"
 
 @Entity()
 export class Preschooler {
@@ -11,4 +12,9 @@ export class Preschooler {
     @Min(3)
     @Max(6)
     age: number 
+
+    @OneToMany(() => Plushie, (plushie) => plushie.preschooler) 
+    plushie : Plushie[]
+
+
 }

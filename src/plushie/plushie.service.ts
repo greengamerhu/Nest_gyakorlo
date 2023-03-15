@@ -29,6 +29,9 @@ export class PlushieService {
       throw new BadRequestException("Ilyen id-val nem található plüss")
     }
     const plushieToUpdate = await plushieRepo.findOneBy({id})
+    if(updatePlushieDto.size == null && updatePlushieDto.type == null) {
+      throw new BadRequestException("A kéréshez nem társult semilyen adat")
+    }
     plushieToUpdate.type = updatePlushieDto.type
     plushieToUpdate.size = updatePlushieDto.size
 

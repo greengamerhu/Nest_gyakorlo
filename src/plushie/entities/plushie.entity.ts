@@ -1,5 +1,6 @@
 import { Min } from "class-validator"
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm"
+import { Preschooler } from "src/preschooler/entities/preschooler.entity"
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
 
 @Entity()   
 export class Plushie {
@@ -9,4 +10,6 @@ export class Plushie {
     type: string
     @Column()
     size: number 
+    @ManyToOne(() => Preschooler, (preschooler) => preschooler.plushie)
+    preschooler : Preschooler
 }
